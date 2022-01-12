@@ -7,9 +7,9 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// LoadYaml expects parameter obj to be a pointer.
-// E.g: err := config.LoadYaml("config.yml", &env)
-func LoadYaml(fileName string, obj interface{}) error {
+// LoadYamlFile expects parameter obj to be a pointer.
+// E.g: err := config.LoadYamlFile("config.yml", &env)
+func LoadYamlFile(fileName string, obj interface{}) error {
 	src, err := os.ReadFile(fileName)
 	if err != nil {
 		return err
@@ -18,10 +18,10 @@ func LoadYaml(fileName string, obj interface{}) error {
 	return yaml.Unmarshal(src, obj)
 }
 
-// MustLoadYaml expects parameter obj to be a pointer.
-// E.g: config.MustLoadYaml("config.yml", &env)
-func MustLoadYaml(fileName string, obj interface{}) {
-	if err := LoadYaml(fileName, obj); err != nil {
+// MustLoadYamlFile expects parameter obj to be a pointer.
+// E.g: config.MustLoadYamlFile("config.yml", &env)
+func MustLoadYamlFile(fileName string, obj interface{}) {
+	if err := LoadYamlFile(fileName, obj); err != nil {
 		panic(err)
 	}
 }

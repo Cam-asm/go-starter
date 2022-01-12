@@ -16,7 +16,7 @@ func main() {
 
 	// Load environment config from config.yml and environment variables.
 	var env api.Config
-	config.MustLoadYamlEnv("config.yml", api.EnvPrefix, &env)
+	config.MustLoadYamlFileEnv("config.yml", api.EnvPrefix, &env)
 	env.Print()
 
 	graceful.Server(&http.Server{
