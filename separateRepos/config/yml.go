@@ -8,7 +8,7 @@ import (
 )
 
 // LoadYamlFile expects parameter obj to be a pointer.
-// E.g: err := config.LoadYamlFile("config.yml", &env)
+// E.g: err := config.LoadYamlFile("config.yml", &config)
 func LoadYamlFile(fileName string, obj interface{}) error {
 	src, err := os.ReadFile(fileName)
 	if err != nil {
@@ -19,7 +19,7 @@ func LoadYamlFile(fileName string, obj interface{}) error {
 }
 
 // MustLoadYamlFile expects parameter obj to be a pointer.
-// E.g: config.MustLoadYamlFile("config.yml", &env)
+// E.g: config.MustLoadYamlFile("config.yml", &config)
 func MustLoadYamlFile(fileName string, obj interface{}) {
 	if err := LoadYamlFile(fileName, obj); err != nil {
 		panic(err)

@@ -28,3 +28,31 @@ func MustLoadEnvYamlFile(envPrefix, yamlFilePath string, obj interface{}) {
 		MustLoadYamlFile(yamlFilePath, obj)
 	}
 }
+
+// MustLoadJsonFileEnv attempts to load JSON configuration file in jsonFilePath and then environment variables into obj.
+// If jsonFilePath is empty, then no JSON file is parsed.
+// obj is expected to be a pointer.
+func MustLoadJsonFileEnv(jsonFilePath, envPrefix string, obj interface{}) {
+	if jsonFilePath != "" {
+		// Load defined fields from a JSON config file.
+		MustLoadJsonFile(jsonFilePath, obj)
+	}
+
+	// Any environment variables loaded are over-riding any values defined from the JSON config file.
+	envconfig.MustProcess(envPrefix, obj)
+}
+
+// MustLoadEnvJsonFile attempts to load environment variables and then JSON configuration file in jsonFilePath into obj.
+// MustLoadEnvJsonFile is the same as MustLoadJsonFileEnv except it is executed in reverse order.
+// If jsonFilePath is empty, then no JSON file is parsed.
+// obj is expected to be a pointer.
+func MustLoadEnvJsonFile(envPrefix, jsonFilePath string, obj interface{}) {
+	// Load available environment variables into obj.
+	envconfig.MustProcess(envPrefix, obj)
+
+	// Any fields defined in the JSON config file override environment variables.
+	if jsonFilePath != "" {
+		// Load defined fields from a JSON config file.
+		MustLoadJsonFile(jsonFilePath, obj)
+	}
+}
