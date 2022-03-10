@@ -5,6 +5,7 @@ go 1.16
 require (
 	github.com/creasty/defaults v1.5.2
 	github.com/go-chi/chi/v5 v5.0.4
+	github.com/google/uuid v1.3.0 // indirect
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/sirupsen/logrus v1.8.1
 	github.com/stretchr/testify v1.7.0
