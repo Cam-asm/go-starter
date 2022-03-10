@@ -1,6 +1,7 @@
 package testutl
 
 import (
+	"fmt"
 	"net/http"
 	"testing"
 
@@ -18,14 +19,15 @@ func TestHandlerFuncBodyFails(t *testing.T) {
 		{"invalid HTTP method", string([]byte{0, 1}), "/"},
 	}
 	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			// Create a new testing.T variable so the expected assertion failures within HandlerFunc don't incorrectly fail the tests.
-			tst := &testing.T{}
-			rr, body, ok := HandlerFuncBody(tst, zoo.Status, tt.method, tt.url, "", -1)
-			assert.Nil(t, rr)
-			assert.False(t, ok)
-			assert.Empty(t, body)
-		})
+		t.Run(
+			tt.name, func(t *testing.T) {
+				// Create a new testing.T variable so the expected assertion failures within HandlerFunc don't incorrectly fail the tests.
+				tst := &testing.T{}
+				rr, body := HandlerFuncBody(tst, zoo.Status, tt.method, tt.url, "", -1)
+				assert.Nil(t, rr)
+				assert.Empty(t, body)
+			},
+		)
 	}
 }
 
@@ -43,24 +45,27 @@ func TestHandlerFuncBodySuccessful(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			rr, body, ok := HandlerFuncBody(t, zoo.Status, tt.method, tt.url, "", tt.statusCode)
-			assert.NotNil(t, rr)
-			assert.True(t, ok)
-			assert.NotEmpty(t, body)
-		})
+		t.Run(
+			tt.name, func(t *testing.T) {
+				rr, body := HandlerFuncBody(t, zoo.Status, tt.method, tt.url, "", tt.statusCode)
+				assert.NotNil(t, rr)
+				assert.NotEmpty(t, body)
+			},
+		)
 	}
 }
 
 func TestHandlerFuncBodyUrlFormat(t *testing.T) {
-	rr, body, ok := HandlerFuncBody(t, zoo.Status, http.MethodConnect, "/%s/%s/%s", "", http.StatusOK, "make", "model", "series")
+	url := fmt.Sprintf("/%s/%s/%s", "make", "model", "series")
+	rr, body := HandlerFuncBody(t, zoo.Status, http.MethodConnect, url, "", http.StatusOK)
 	assert.NotNil(t, rr)
-	assert.True(t, ok)
 	assert.NotEmpty(t, body)
 }
 
 func TestHandlerFuncPanics(t *testing.T) {
-	assert.Panics(t, func() {
-		HandlerFunc(t, nil, http.MethodGet, "/", "", 0)
-	})
+	assert.Panics(
+		t, func() {
+			HandlerFunc(t, nil, http.MethodGet, "/", "", 0)
+		},
+	)
 }
