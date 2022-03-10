@@ -11,7 +11,7 @@ RUN sed -i 's/http\:\/\/dl-cdn.alpinelinux.org/https\:\/\/alpine.global.ssl.fast
 WORKDIR /app
 COPY . .
 
-ENV GOPRIVATE=scm.applatform.io
+ENV GONOSUMDB=github.com/applatform/*
 
 RUN go mod download
 
