@@ -9,7 +9,7 @@ export GONOSUMDB="github.com/applatform/*"
 # Create directory & set permissions.
 mkdir -p ~/.ssh && chmod 0600 ~/.ssh
 
-# Download the Github public SSH key.
+# Download the GitHub public SSH key.
 ssh-keyscan -p 443 ssh.github.com >> ~/.ssh/known_hosts
 
 # Force SSH to use port 443.
